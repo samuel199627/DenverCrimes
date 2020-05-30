@@ -2,6 +2,7 @@ package it.polito.tdp.crimes.model;
 
 import java.time.LocalDateTime;
 
+//non riguarda la simulazione di eventi, e' la tabella che aveva questi elementi al suo interno
 public class Event {
 	
 	private Long incident_id;
