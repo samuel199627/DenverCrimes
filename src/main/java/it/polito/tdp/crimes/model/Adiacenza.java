@@ -1,5 +1,8 @@
 package it.polito.tdp.crimes.model;
 
+//Mi tiene traccia di tutte le adiacenze che abbiamo nel grafo: i due vertici piu' il peso tra di loro
+//non ridefiniaimo il metodo equals ed hashcode in quanto non mettiamo nulla in mappe o cose strane.
+//I vertici sono dei reati e nel grafo li vogliamo di una categoria 
 public class Adiacenza {
 
 	private String v1;

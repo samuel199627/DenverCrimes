@@ -1,5 +1,6 @@
 package it.polito.tdp.crimes.model;
 
+//mettiamo un ordinamento sul peso per poter chiamare un sort nella lista di archi che ci creiamo
 public class Arco implements Comparable<Arco>{
 	private String v1;
 	private String v2;

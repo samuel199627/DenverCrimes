@@ -5,6 +5,7 @@
 package it.polito.tdp.crimes;
 
 import java.net.URL;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,6 +16,26 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+
+/*
+ 	E' una simulazione d'esame.
+ 	Il dataset contiene crimini a Denver con un'unica tabella relativa ad un dato crimine.
+ 	Dobbiamo interrogare la base dati per analizzare la distribuzione delle forze di polizia con la
+ 	costruzione di un grafo (pesato, semplice non orientato).
+ 	
+ 	Non abbiamo utilizzato una identity Map in questo esercizio in quanto i vertici del grafo sono
+ 	delle stringhe e quindi i riferimenti sono sempre loro e non rischio di crearmi lo stesso
+ 	oggetto ma con due riferimenti differenti.
+ 	
+ 	Siccome dobbiamo stampare gli archi, ci creiamo una classe che li rappresenta per fare piu' veloce.
+ 	
+ 	Il secondo punto e' ricorsivo e dobbiamo calcolare un percorso, quindi dobbiamo ritornare un percorso
+ 	tra un vertice di partenza ed un vertice di arrivo. Vogliamo il cammino che contiene il numero massimo
+ 	di vertici.
+ 	
+ 	PROVANDO COSE DIVERSE DA QUELLE CHE HA MESSO LUI, CIOE' CHE HA SELEZIONATO MI DAVA QUALCHE ECCEZIONE, QUINDI
+ 	MAGARI QUI E LI' QUALCHE ERRORINO C'E' MA IL CONCETTO E' PRATICAMENTE QUELLO PRESENTE QUI.
+ */
 
 public class FXMLController {
 	
@@ -78,7 +99,10 @@ public class FXMLController {
     	
     	this.model.creaGrafo(categoria, mese);
     	
+    	//SICCOME DOBBIAMO STAMPARE GLI ARCHI, CI CREIAMO UNA CLASSE (simile ad adiacenza)
+    	//che mi permette di fare una stampa molto facile
     	List<Arco> archi = this.model.getArchi();
+    	//aggiungo gli archi al menu a tendina per poter fare il punto 2 dell'esercizio
     	boxArco.getItems().addAll(archi);
     	txtResult.appendText("ARCHI > PESO MEDIO: \n\n");
     	for(Arco a : archi) {
@@ -99,6 +123,7 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	//AGGIUNGIAMO AI MENU A TENDINA  LE INFORMAZIONI CHE CI SERVONO
     	this.boxCategoria.getItems().addAll(this.model.getCategorie());
     	this.boxMese.getItems().addAll(this.model.getMesi());
     }

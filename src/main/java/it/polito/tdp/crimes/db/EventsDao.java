@@ -58,6 +58,8 @@ public class EventsDao {
 		}
 	}
 	
+	//vogliamo i mesi distinti in cui si verificano i crimini ed estraggo mediante la funzione MONTH
+	//e restituisce i mesi in numero
 	public List<Integer> getMesi(){
 		String sql = "SELECT DISTINCT Month(reported_date) as mese FROM events";
 		List<Integer> mesi = new LinkedList<>();
@@ -69,6 +71,8 @@ public class EventsDao {
 				mesi.add(res.getInt("mese"));
 			}
 			conn.close();
+			//ordino i mesi in maniera crescente da interi in quanto provata sul dataset in sequel pro
+			//venivano restituiti abbastanza a caso i mesi
 			Collections.sort(mesi);
 			return mesi;
 		} catch (SQLException e) {
@@ -78,6 +82,8 @@ public class EventsDao {
 		}
 	}
 	
+	//seleziono le categorie distinte esattamente come per i mesi
+	//sono delle stringhe questi identificativi di categorie
 	public List<String> getCategorie(){
 		String sql = "SELECT DISTINCT offense_category_id as categoria FROM events";
 		List<String> categorie = new LinkedList<>();
@@ -98,6 +104,12 @@ public class EventsDao {
 	}
 
 	public List<Adiacenza> getAdiacenze(String categoria, Integer mese) {
+		//vogliamo la coppia di reati in cui si sono verificati entrambi i reati e contare i quartieri distinti
+		//la tabella e' una lista di crimini e noi cerchiamo una coppia di crimini diversi e quindi facciamo un join della
+		//tabella con se stessa sul crimine diverso
+		//filtriamo sulla categoria, filtriamo sul mese (su entrambe le tabelle di cui facciamo il join) e infine
+		//filtriamo sul quartiere uguale tra i due reati.
+		//Raggruppiamo tutto per contare sulla coppia.
 		String sql = "select e1.offense_type_id as v1, e2.offense_type_id as v2, COUNT(DISTINCT(e1.neighborhood_id)) as peso " + 
 				"from events e1, events e2 " + 
 				"where e1.offense_category_id = ? " + 
@@ -118,6 +130,8 @@ public class EventsDao {
 			
 			ResultSet res = st.executeQuery() ;
 			while (res.next()) {
+				//QUANDO RINOMINO LE COLONNE NEL RISULTATO DELLA QUERY POSSO IMPORTARE FACILMENTE IL LORO NOME
+				//USANDO IL NOME CAMBIATO E RINOMINATO
 				adiacenze.add(new Adiacenza(res.getString("v1"), res.getString("v2"), res.getDouble("peso")));
 			}
 			conn.close();
